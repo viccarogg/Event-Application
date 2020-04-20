@@ -1,0 +1,27 @@
+<form #form="ngForm">
+    <select class="form-control" id="filterTable" (change)="filterTable()" name="filter" [(ngModel)]="filter">
+        <option value="">Show All</option>
+        <option value="t">Today</option>
+        <option value="w">This Week</option>
+        <option value="m">This Month</option>
+        <option value="y">This Year</option>
+        <option value="p">Past Events</option>
+        <option value="f">Future Events</option>
+      </select>
+</form>
+<table id="events" class="table table-striped">
+    <thead class="thead-dark">
+        <th scope="col">Title</th>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Location</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let event of filteredEvents">
+            <td>{{event.title}}</td>
+            <td>{{event.date}}</td>
+            <td>{{event.time}}</td>
+            <td>{{event.location}}</td>
+        </tr>
+    </tbody>
+</table>

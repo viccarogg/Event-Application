@@ -33,7 +33,6 @@ export class EventsListComponent implements OnInit {
   }
 
   filterTable() {
-    console.log('filter changed: ' + this.filter)
     let today = new Date();
     switch(this.filter) {
       case "":

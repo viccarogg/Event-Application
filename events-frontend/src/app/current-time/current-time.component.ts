@@ -8,7 +8,7 @@ import { EventService } from '../event.service';
 })
 export class CurrentTimeComponent implements OnInit {
   now: Date = new Date();
-  timeInWords = "";
+  timeInWords;
 
   constructor(private eventService : EventService) {
     setInterval(() => {
@@ -17,10 +17,16 @@ export class CurrentTimeComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.eventService.getTimeInWords(this.now.getHours() > 12 ? this.now.getHours() - 12 : this.now.getHours(), this.now.getMinutes()).subscribe(data => this.timeInWords = data);
+    let hrs = this.now.getHours() > 12 ? this.now.getHours() - 12 : this.now.getHours();
+    this.eventService.getTimeInWords(hrs, this.now.getMinutes()).subscribe(data => this.timeInWords = data.timeInWords);
+    setInterval(() => {
+      hrs = this.now.getHours() > 12 ? this.now.getHours() - 12 : this.now.getHours()
+      fetch(`http://localhost:9090/api/time?hours=${hrs}&mins=${this.now.getMinutes()}`)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("time").innerText = data.timeInWords
+      })
+    }, 60000)
   }
 
-    updateTime() {
-      this.eventService.getTimeInWords(this.now.getHours(), this.now.getMinutes()).subscribe(data => this.timeInWords = data);
-    }
 }
